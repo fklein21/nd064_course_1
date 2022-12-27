@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
@@ -25,15 +26,40 @@ app.config['SECRET_KEY'] = 'your secret key'
 # Define the main route of the web application 
 @app.route('/')
 def index():
+    app.logger.info('Main request successful.')
     connection = get_db_connection()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.close()
     return render_template('index.html', posts=posts)
 
+# Define the health/status route of the web application
+@app.route('/healthz')
+def status():
+    app.logger.info('Health request successful.')
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
+# Define the metrics route of the web applciation
+@app.route('/metrics')
+def metrics():
+    app.logger.info('Metrics request successful.')
+    response = app.response_class(
+            # Response: return example content
+            response=json.dumps({"status":"success","code":0,"data":{"UserCount":140,"UserCountActive":23}}),
+            status=200,
+            mimetype='application/json'
+    )
+    return response
+
 # Define how each individual article is rendered 
 # If the post ID is not found a 404 page is shown
 @app.route('/<int:post_id>')
 def post(post_id):
+    # app.logger.info('Post request successful. Post_id: '+post_id)
     post = get_post(post_id)
     if post is None:
       return render_template('404.html'), 404
@@ -43,14 +69,18 @@ def post(post_id):
 # Define the About Us page
 @app.route('/about')
 def about():
+    app.logger.info('About request successful.')
     return render_template('about.html')
 
 # Define the post creation functionality 
 @app.route('/create', methods=('GET', 'POST'))
 def create():
+    app.logger.info('Create request successful.')
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
+        app.logger.info('Request content: '+title)
+        app.logger.info('Request content: '+content)
 
         if not title:
             flash('Title is required!')
@@ -67,4 +97,5 @@ def create():
 
 # start the application on port 3111
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port='3111')
+    logging.basicConfig(filename='app.log',level=logging.DEBUG)
+    app.run(host='0.0.0.0', port='3111')
