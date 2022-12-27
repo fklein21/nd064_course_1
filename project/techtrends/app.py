@@ -19,6 +19,14 @@ def get_post(post_id):
     connection.close()
     return post
 
+# Function to check if the table exists in the db (source: (1))
+def check_table_exists(table_name):
+    connection = get_db_connection()
+    tc = connection.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                        (table_name,)).fetchone()
+    connection.close()
+    return tc
+
 # Define the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -36,11 +44,18 @@ def index():
 @app.route('/healthz')
 def status():
     app.logger.info('Health request successful.')
-    response = app.response_class(
-            response=json.dumps({"result":"OK - healthy"}),
-            status=200,
-            mimetype='application/json'
-    )
+    if check_table_exists("posts") is not None:
+        response = app.response_class(
+                response=json.dumps({"result":"OK - healthy"}),
+                status=200,
+                mimetype='application/json'
+        )
+    else:
+        response = app.response_class(
+                response=json.dumps({"result":"Unhealthy - Database error: No table posts"}),
+                status=500,
+                mimetype='application/json'
+        )
     return response
 
 # Define the metrics route of the web applciation
@@ -99,3 +114,8 @@ def create():
 if __name__ == "__main__":
     logging.basicConfig(filename='app.log',level=logging.DEBUG)
     app.run(host='0.0.0.0', port='3111')
+
+
+
+# Content taken (and modified) from this sources
+# (1) - https://stackoverflow.com/questions/1601151/how-do-i-check-in-sqlite-whether-a-table-exists
