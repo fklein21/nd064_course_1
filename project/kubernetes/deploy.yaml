@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: techtrends
+    tag: techtrends
+  name: nginx-alpine
+  namespace: sandbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techtrends
+      tag: techtrends
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: techtrends
+        tag: techtrends
+    spec:
+      containers:
+      - image: fklein/techtrends:latest
+        imagePullPolicy: IfNotPresent
+        name: techtrends
+        ## Expose the port the container is listening on.
+        ports:
+        - containerPort: 3111
+          protocol: TCP
+        ## Define the rules for the liveness probes.
+        livenessProbe:
+           httpGet:
+             path: /healthz
+             port: 3111
+        ## Define the rules for the readiness probes.
+        readinessProbe:
+           httpGet:
+             path: /healthz
+             port: 3111
+        ## Set the resource requests and limits for an application.
+        resources:
+        ## The resource requests guarantees that the desired amount 
+        ## CPU and memory is allocated for a pod.
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        ## The resource limits ensure that the application is not consuming 
+        ## more than the specified CPU and memory values.
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

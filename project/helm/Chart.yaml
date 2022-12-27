@@ -1,0 +1,8 @@
+apiVersion: v1
+name: techtrends
+description: Flask server serving the techtrends page 
+keywords:
+- techtrends
+version: 1.0.0
+maintainers:
+- name: fklein
