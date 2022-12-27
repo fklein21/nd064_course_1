@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: techtrends
+    tag: {{ .Values.image.tag }}
+  name: techtrends
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: techtrends
+      tag: {{ .Values.image.tag }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: techtrends
+        tag: {{ .Values.image.tag }}
+    spec:
+      containers:
+      - image: fklein21/techtrends:latest
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: techtrends
+        ## Expose the port the container is listening on.
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+          protocol: TCP
+        ## Define the rules for the liveness probes.
+        livenessProbe:
+           httpGet:
+             path: {{ .Values.livenessProbe.path }}
+             port: {{ .Values.livenessProbe.port }}
+        ## Define the rules for the readiness probes.
+        readinessProbe:
+           httpGet:
+             path: {{ .Values.readinessProbe.path }}
+             port: {{ .Values.readinessProbe.port }}
+        ## Set the resource requests and limits for an application.
+        resources:
+        ## The resource requests guarantees that the desired amount 
+        ## CPU and memory is allocated for a pod.
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
+            cpu: {{ .Values.resources.requests.cpu }}
+        ## The resource limits ensure that the application is not consuming 
+        ## more than the specified CPU and memory values.
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}

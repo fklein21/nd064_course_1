@@ -1,0 +1,53 @@
+## Docker commands used to build the application 
+docker build -t techtrends .
+
+## Docker commands used to run the application
+docker run -p 7111:3111 -d techtrends
+
+## Docker commands used to get the application logs
+docker logs e8a2855f37f8
+
+## Logs from the container running the TechTrends application
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+2022-12-27 23:43:11,456 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2022-12-27 23:43:11,456 - werkzeug - INFO -  * Running on http://192.168.178.32:3111/ (Press CTRL+C to quit)
+2022-12-27 23:43:15,007 - app - INFO - Main request successful.
+2022-12-27 23:43:15,019 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:15] "GET / HTTP/1.1" 200 -
+2022-12-27 23:43:15,157 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:15] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:16,625 - app - INFO - Post request successful.
+2022-12-27 23:43:16,628 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:16] "GET /1 HTTP/1.1" 200 -
+2022-12-27 23:43:16,834 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:16] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:18,243 - app - INFO - Post request successful.
+2022-12-27 23:43:18,244 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:18] "GET /2 HTTP/1.1" 200 -
+2022-12-27 23:43:18,363 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:18] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:20,525 - app - INFO - Post request successful.
+2022-12-27 23:43:20,526 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:20] "GET /6 HTTP/1.1" 200 -
+2022-12-27 23:43:20,657 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:20] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:26,502 - app - INFO - Health request successful.
+2022-12-27 23:43:26,503 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:26] "GET /healthz HTTP/1.1" 200 -
+2022-12-27 23:43:32,326 - app - INFO - Metrics request successful.
+2022-12-27 23:43:32,326 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:32] "GET /metrics HTTP/1.1" 200 -
+2022-12-27 23:43:37,136 - app - INFO - Post request successful.
+2022-12-27 23:43:37,137 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:37] "GET /2 HTTP/1.1" 200 -
+2022-12-27 23:43:37,290 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:37] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:39,104 - app - INFO - Create request successful.
+2022-12-27 23:43:39,108 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:39] "GET /create HTTP/1.1" 200 -
+2022-12-27 23:43:39,271 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:39] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:43,939 - app - INFO - Create request successful.
+2022-12-27 23:43:43,940 - app - INFO - Request content: dfdfae
+2022-12-27 23:43:43,940 - app - INFO - Request content: afeaea
+2022-12-27 23:43:43,945 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:43] "POST /create HTTP/1.1" 302 -
+2022-12-27 23:43:43,975 - app - INFO - Main request successful.
+2022-12-27 23:43:43,977 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:43] "GET / HTTP/1.1" 200 -
+2022-12-27 23:43:44,091 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:44] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:45,764 - app - INFO - About request successful.
+2022-12-27 23:43:45,766 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:45] "GET /about HTTP/1.1" 200 -
+2022-12-27 23:43:45,924 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:45] "GET /static/css/main.css HTTP/1.1" 304 -
+2022-12-27 23:43:48,035 - app - INFO - Main request successful.
+2022-12-27 23:43:48,036 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:48] "GET / HTTP/1.1" 200 -
+2022-12-27 23:43:48,154 - werkzeug - INFO - 192.168.178.32 - - [27/Dec/2022 23:43:48] "GET /static/css/main.css HTTP/1.1" 304 -
