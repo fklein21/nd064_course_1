@@ -24,7 +24,7 @@ spec:
         tag: techtrends
     spec:
       containers:
-      - image: fklein/techtrends:latest
+      - image: fklein21/techtrends:latest
         imagePullPolicy: IfNotPresent
         name: techtrends
         ## Expose the port the container is listening on.
