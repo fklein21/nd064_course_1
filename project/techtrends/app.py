@@ -19,6 +19,13 @@ def get_post(post_id):
     connection.close()
     return post
 
+# Function to get a post using its ID
+def get_post_count():
+    connection = get_db_connection()
+    post = connection.execute('SELECT count(*) FROM posts').fetchone()
+    connection.close()
+    return post
+
 # Function to check if the table exists in the db (source: (1))
 def check_table_exists(table_name):
     connection = get_db_connection()
@@ -62,9 +69,9 @@ def status():
 @app.route('/metrics')
 def metrics():
     app.logger.info('Metrics request successful.')
+    post_count = get_post_count()[0]
     response = app.response_class(
-            # Response: return example content
-            response=json.dumps({"status":"success","code":0,"data":{"UserCount":140,"UserCountActive":23}}),
+            response=json.dumps({"status":"success","code":0,"data":{"post_count":post_count}}),
             status=200,
             mimetype='application/json'
     )
@@ -74,7 +81,7 @@ def metrics():
 # If the post ID is not found a 404 page is shown
 @app.route('/<int:post_id>')
 def post(post_id):
-    # app.logger.info('Post request successful. Post_id: '+post_id)
+    app.logger.info('Post request successful.')
     post = get_post(post_id)
     if post is None:
       return render_template('404.html'), 404
@@ -112,10 +119,14 @@ def create():
 
 # start the application on port 3111
 if __name__ == "__main__":
-    logging.basicConfig(filename='app.log',level=logging.DEBUG)
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"  # (2)
+    logging.basicConfig(format=format, level=logging.DEBUG)
     app.run(host='0.0.0.0', port='3111')
 
 
 
 # Content taken (and modified) from this sources
 # (1) - https://stackoverflow.com/questions/1601151/how-do-i-check-in-sqlite-whether-a-table-exists
+# (2) - https://java2blog.com/log-to-stdout-python/
+
+
